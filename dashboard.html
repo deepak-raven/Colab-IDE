@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>CodeSync IDE Dashboard</title>
+    <!-- Google Fonts: Space Grotesk -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Theme Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5aa060",
+                        "background-light": "#f6f7f6",
+                        "background-dark": "#161c17",
+                        "surface-dark": "#1f2620",
+                        "surface-hover": "#2a342b",
+                        "border-dark": "#303b31"
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #161c17;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #303b31;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5aa060;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden selection:bg-primary/30 selection:text-primary">
+    <div class="flex h-screen w-full relative">
+        <!-- Ambient Background Glow -->
+        <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+            <div class="absolute -top-[20%] -right-[10%] w-[600px] h-[600px] rounded-full bg-primary/5 blur-[120px]">
+            </div>
+            <div class="absolute top-[40%] -left-[10%] w-[500px] h-[500px] rounded-full bg-primary/5 blur-[100px]">
+            </div>
+        </div>
+        <!-- Sidebar -->
+        <aside class="w-72 h-full flex flex-col border-r border-border-dark bg-[#111511] z-20 hidden md:flex">
+            <!-- Logo Area -->
+            <div class="p-6 flex items-center gap-3">
+                <div
+                    class="size-10 bg-gradient-to-br from-primary to-emerald-800 rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
+                    <span class="material-symbols-outlined text-white" style="font-size: 24px;">terminal</span>
+                </div>
+                <div>
+                    <h1 class="text-white text-lg font-bold leading-none tracking-tight">CodeSync</h1>
+                    <p class="text-xs text-gray-400 font-medium">Pro Workspace</p>
+                </div>
+            </div>
+            <!--                <nav class="flex-1 px-4 py-4 flex flex-col gap-2 overflow-y-auto">
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/15 text-primary border border-primary/10 transition-colors" href="dashboard.html">
+                        <span class="material-symbols-outlined filled">dashboard</span>
+                        <span class="text-sm font-semibold">Dashboard</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-surface-hover transition-colors group" href="#">
+                        <span class="material-symbols-outlined group-hover:text-primary transition-colors">folder_open</span>
+                        <span class="text-sm font-medium">My Projects</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-surface-hover transition-colors group" href="#">
+                        <span class="material-symbols-outlined group-hover:text-primary transition-colors">group</span>
+                        <span class="text-sm font-medium">Shared with Me</span>
+                        <span class="ml-auto bg-primary/20 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full">2</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-surface-hover transition-colors group" href="#">
+                        <span class="material-symbols-outlined group-hover:text-primary transition-colors">integration_instructions</span>
+                        <span class="text-sm font-medium">Templates</span>
+                    </a>
+                    <div class="my-2 border-t border-border-dark"></div>
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-surface-hover transition-colors group" href="#">
+                        <span class="material-symbols-outlined group-hover:text-primary transition-colors">settings</span>
+                        <span class="text-sm font-medium">Settings</span>
+                    </a>
+                </nav>
+                <!-- User Profile -->
+            <div class="p-4 border-t border-border-dark">
+                <div
+                    class="flex items-center gap-3 p-2 rounded-xl hover:bg-surface-hover cursor-pointer transition-colors">
+                    <div class="size-10 rounded-full bg-cover bg-center border-2 border-primary/20"
+                        data-alt="User avatar of Alex"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAYe4kGI78kcO-o291nw4eolVwBfktDFjUnxd8cKo8G5qZxKACH2LnnrtZxEHuNJDLH4jcTu0iUrIv_1PNRhZieXBZ282n1Fc35tXQeEONSf_bZxCwcZig0QOraXZYgEi9U2Q4eIunIWpNzcFNtqIu-Be0z2JOXM-7BJmVoZQ7zU6leTN1ryxYVZckRNSc4vA36pVjJQdMB8_ueA_pJxzxMbKH8ppGJ2WFuk-XCcsjEnZuNVJFDcmAv2w1yIbwdUGq3pQXAog82DZA')">
+                    </div>
+                    <div class="flex flex-col min-w-0">
+                        <p class="text-white text-sm font-bold truncate">Alex Chen</p>
+                        <p class="text-gray-500 text-xs truncate">alex@codesync.dev</p>
+                    </div>
+                    <span class="material-symbols-outlined text-gray-500 ml-auto"
+                        style="font-size: 20px;">unfold_more</span>
+                </div>
+            </div>
+        </aside>
+        <!-- Main Content -->
+        <main class="flex-1 h-full flex flex-col relative z-10 overflow-y-auto">
+            <!-- Top Header & Search -->
+            <header
+                class="px-8 py-6 flex items-center justify-between sticky top-0 z-30 bg-background-dark/80 backdrop-blur-md border-b border-border-dark">
+                <!-- Mobile Menu Button (Visible on mobile only) -->
+                <button class="md:hidden p-2 text-white bg-surface-hover rounded-lg mr-4">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+                <!-- Search Bar -->
+                <div class="w-full max-w-2xl relative group">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <span
+                            class="material-symbols-outlined text-gray-500 group-focus-within:text-primary transition-colors">search</span>
+                    </div>
+                    <input
+                        class="w-full h-12 bg-[#0c0f0c] border border-border-dark text-white text-sm rounded-xl pl-12 pr-4 focus:ring-2 focus:ring-primary/50 focus:border-primary placeholder-gray-500 transition-all shadow-sm"
+                        placeholder="Search files, projects, or commands (Cmd+K)..." type="text" />
+                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                        <span
+                            class="text-gray-600 text-xs border border-border-dark px-1.5 py-0.5 rounded bg-surface-dark font-mono">⌘K</span>
+                    </div>
+                </div>
+                <!-- Right Actions -->
+                <div class="flex items-center gap-4 ml-6">
+                    <button
+                        class="relative p-2 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-surface-hover">
+                        <span class="material-symbols-outlined">notifications</span>
+                        <span
+                            class="absolute top-2 right-2 size-2 bg-primary rounded-full border-2 border-background-dark"></span>
+                    </button>
+                    <a href="quickstart.html"
+                        class="hidden lg:flex items-center gap-2 bg-primary text-white px-4 py-2.5 rounded-lg text-sm font-bold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
+                        <span class="material-symbols-outlined text-[20px]">add</span>
+                        <span>New Project</span>
+                    </a>
+                </div>
+            </header>
+            <!-- Dashboard Content -->
+            <div class="flex-1 p-8 max-w-[1600px] w-full mx-auto flex flex-col gap-10">
+                <!-- Welcome Section -->
+                <div class="flex flex-col gap-2">
+                    <h2 class="text-4xl font-bold text-white tracking-tight">Welcome back, Alex</h2>
+                    <p class="text-gray-400 text-lg">Ready to build something amazing today?</p>
+                </div>
+                <!-- Action Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Create New -->
+                    <a href="quickstart.html"
+                        class="group relative flex flex-col justify-between h-48 p-6 rounded-2xl border-2 border-dashed border-border-dark hover:border-primary/50 hover:bg-surface-dark/50 transition-all text-left">
+                        <div
+                            class="size-12 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300">
+                            <span class="material-symbols-outlined text-3xl">add</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">Create
+                                New Project</h3>
+                            <p class="text-gray-500 text-sm mt-1">Start a fresh environment from scratch</p>
+                        </div>
+                    </a>
+                    <!-- Clone GitHub -->
+                    <button
+                        class="group relative flex flex-col justify-between h-48 p-6 rounded-2xl bg-surface-dark border border-border-dark hover:border-gray-600 hover:shadow-xl transition-all text-left overflow-hidden">
+                        <div
+                            class="absolute top-0 right-0 p-32 bg-white/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none group-hover:bg-white/10 transition-colors">
+                        </div>
+                        <div
+                            class="size-12 rounded-full bg-gray-800 flex items-center justify-center text-white relative z-10 group-hover:scale-110 transition-transform">
+                            <span class="material-symbols-outlined text-2xl">code</span>
+                        </div>
+                        <div class="relative z-10">
+                            <h3 class="text-xl font-bold text-white">Clone from GitHub</h3>
+                            <p class="text-gray-500 text-sm mt-1">Import an existing repository</p>
+                        </div>
+                    </button>
+                    <!-- Templates -->
+                    <button
+                        class="group relative flex flex-col justify-between h-48 p-6 rounded-2xl bg-surface-dark border border-border-dark hover:border-gray-600 hover:shadow-xl transition-all text-left overflow-hidden">
+                        <div
+                            class="absolute bottom-0 right-0 p-32 bg-primary/5 rounded-full blur-3xl -mr-16 -mb-16 pointer-events-none group-hover:bg-primary/10 transition-colors">
+                        </div>
+                        <div
+                            class="size-12 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-400 relative z-10 group-hover:scale-110 transition-transform">
+                            <span class="material-symbols-outlined text-2xl">view_quilt</span>
+                        </div>
+                        <div class="relative z-10">
+                            <h3 class="text-xl font-bold text-white">Browse Templates</h3>
+                            <p class="text-gray-500 text-sm mt-1">Next.js, Python, Go and more</p>
+                        </div>
+                    </button>
+                </div>
+                <!-- Recent Projects -->
+                <div class="flex flex-col gap-6">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-2xl font-bold text-white">Recent Projects</h3>
+                        <a class="text-sm font-medium text-primary hover:text-primary/80 flex items-center gap-1 transition-colors"
+                            href="#">
+                            View All <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                        </a>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                        <!-- Project Card 1 (Active) -->
+                        <a href="editor.html"
+                            class="group bg-surface-dark hover:bg-surface-hover rounded-xl p-5 border border-border-dark hover:border-primary/30 transition-all cursor-pointer flex flex-col gap-4 relative">
+                            <!-- Active Indicator Pulse -->
+                            <span class="absolute top-5 right-5 flex h-3 w-3">
+                                <span
+                                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+                            </span>
+                            <div class="flex items-start gap-4">
+                                <div
+                                    class="size-10 rounded-lg bg-yellow-500/10 flex items-center justify-center text-yellow-500">
+                                    <span class="material-symbols-outlined">javascript</span>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-bold group-hover:text-primary transition-colors">
+                                        backend-api-v2</h4>
+                                    <p class="text-gray-500 text-xs mt-0.5">nodejs • main branch</p>
+                                </div>
+                            </div>
+                            <div class="h-px bg-border-dark w-full"></div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex -space-x-2 overflow-hidden">
+                                    <img alt="Collaborator 1"
+                                        class="inline-block size-6 rounded-full ring-2 ring-surface-dark"
+                                        data-alt="Male portrait"
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuClJSeB7irgUv9rTOtk8AMCnz2ttKy7Bl5iFAEnXybT0i7tqlAEP7xIaNb3CyliCsr5ucv4K74SrpcT_mSMQ09UnQXHFE3miXTfqmI0S0wxF_vVVIVFKxJxu8tZdV0hsKkAWUWmaNSTALZfHAFmfZVL4dm3I_A_DvxYtgYcwyopgBr89tXwMdrvk1nC6npwN-dcLEWSZ5mFlhLBiOpCcOd6PXeOWhPEK84zMoy62cRo6k5l7dMa7g4DgRH141uVorYSTQ60CiAYSkM" />
+                                    <img alt="Collaborator 2"
+                                        class="inline-block size-6 rounded-full ring-2 ring-primary border-2 border-surface-dark"
+                                        data-alt="Female portrait"
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBm-68txnSBqUrbdA-EvewmhL47aEIOR71MTy8KBNK1YHG5ZFfqJOhJLziOZBI8Lm13-IM1dW7TC6tM74EN-fFvB978vHlY2WcumR2CKKeuBlCJbpXABi7HcadGkMGsghdOgy_9YofEqBdUc5hip36nxCe-iCMy69WjtJSC7NNxP0e0y-PgmMYSc7TyAx-7wqcNTzhUd6F7ZLLh967Z8weJ_-smnbxdFphEczy9RecLUZal0LZmrrldtPdh_t465tsTX5vR-nOlt9Q" />
+                                </div>
+                                <span class="text-xs text-gray-500 font-mono">Edited 2m ago</span>
+                            </div>
+                        </a>
+                        <!-- Project Card 2 -->
+                        <a href="editor.html"
+                            class="group bg-surface-dark hover:bg-surface-hover rounded-xl p-5 border border-border-dark hover:border-primary/30 transition-all cursor-pointer flex flex-col gap-4">
+                            <div class="flex items-start gap-4">
+                                <div
+                                    class="size-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400">
+                                    <span class="material-symbols-outlined">html</span>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-bold group-hover:text-primary transition-colors">
+                                        react-dashboard</h4>
+                                    <p class="text-gray-500 text-xs mt-0.5">react • develop</p>
+                                </div>
+                            </div>
+                            <div class="h-px bg-border-dark w-full"></div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex -space-x-2 overflow-hidden">
+                                    <div
+                                        class="inline-block size-6 rounded-full ring-2 ring-surface-dark bg-purple-500 flex items-center justify-center text-[8px] font-bold text-white">
+                                        AC</div>
+                                </div>
+                                <span class="text-xs text-gray-500 font-mono">Edited 1h ago</span>
+                            </div>
+                        </a>
+                        <!-- Project Card 3 -->
+                        <a href="editor.html"
+                            class="group bg-surface-dark hover:bg-surface-hover rounded-xl p-5 border border-border-dark hover:border-primary/30 transition-all cursor-pointer flex flex-col gap-4">
+                            <div class="flex items-start gap-4">
+                                <div
+                                    class="size-10 rounded-lg bg-green-500/10 flex items-center justify-center text-green-400">
+                                    <span class="material-symbols-outlined">terminal</span>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-bold group-hover:text-primary transition-colors">
+                                        cli-tool-go</h4>
+                                    <p class="text-gray-500 text-xs mt-0.5">golang • release/v1.2</p>
+                                </div>
+                            </div>
+                            <div class="h-px bg-border-dark w-full"></div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex -space-x-2 overflow-hidden">
+                                    <img alt="Collaborator 3"
+                                        class="inline-block size-6 rounded-full ring-2 ring-surface-dark grayscale opacity-70"
+                                        data-alt="Portrait of a woman"
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpUER6c_f3AXY1T4t2-69dhxosE1tLMKNBS5yq1LVFunVvEew7GDEVFcclK3JCiRgynTR5KZExyhQmiI65ld_UDW6HGKHVBIMtFNUg7wuKeeTij336vhjmRzv26_5_YErjvliq3YzcI1ZTJ9kch9Vrepx1TwUZHuqj-v-lD7ORuXZ25rY7lBdyfOops3ywWTnBLPmOJt-Jyjjb_gyeYKNLrOPtsIBhG5yt5021PY0FRD-tsKRVrQ5fAJTPKxxIF2LvcKeqPA-JnXs" />
+                                </div>
+                                <span class="text-xs text-gray-500 font-mono">Edited yesterday</span>
+                            </div>
+                        </a>
+                        <!-- Project Card 4 -->
+                        <a href="editor.html"
+                            class="group bg-surface-dark hover:bg-surface-hover rounded-xl p-5 border border-border-dark hover:border-primary/30 transition-all cursor-pointer flex flex-col gap-4">
+                            <div class="flex items-start gap-4">
+                                <div
+                                    class="size-10 rounded-lg bg-orange-500/10 flex items-center justify-center text-orange-400">
+                                    <span class="material-symbols-outlined">dataset</span>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-bold group-hover:text-primary transition-colors">
+                                        ml-data-pipeline</h4>
+                                    <p class="text-gray-500 text-xs mt-0.5">python • main</p>
+                                </div>
+                            </div>
+                            <div class="h-px bg-border-dark w-full"></div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex -space-x-2 overflow-hidden">
+                                    <div
+                                        class="inline-block size-6 rounded-full ring-2 ring-surface-dark bg-gray-600 flex items-center justify-center text-[8px] font-bold text-white">
+                                        JD</div>
+                                    <div
+                                        class="inline-block size-6 rounded-full ring-2 ring-surface-dark bg-gray-600 flex items-center justify-center text-[8px] font-bold text-white">
+                                        MK</div>
+                                </div>
+                                <span class="text-xs text-gray-500 font-mono">Edited 2d ago</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <!-- Footer / Extra Info -->
+                <div
+                    class="mt-auto pt-10 border-t border-border-dark flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+                    <p>Space Used: 14.2 GB of 50 GB</p>
+                    <div class="flex gap-4 mt-4 md:mt-0">
+                        <a class="hover:text-white transition-colors" href="#">Docs</a>
+                        <a class="hover:text-white transition-colors" href="#">Feedback</a>
+                        <a class="hover:text-white transition-colors" href="#">Support</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

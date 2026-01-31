@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>CodeSync Collaborative Editor</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5aa060",
+                        "background-light": "#f6f7f6",
+                        "background-dark": "#0f0f11",
+                        "panel-dark": "#171c17",
+                        "border-dark": "#303b31",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["Fira Code", "monospace"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .code-line {
+            counter-increment: line;
+        }
+
+        .code-line::before {
+            content: counter(line);
+            display: inline-block;
+            width: 2rem;
+            text-align: right;
+            margin-right: 1.5rem;
+            color: #4b5563;
+            font-size: 0.875rem;
+            user-select: none;
+        }
+
+        .cursor-blink {
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden h-screen flex flex-col">
+    <!-- Header -->
+    <header class="flex items-center justify-between h-14 border-b border-border-dark bg-panel-dark px-4 shrink-0 z-20">
+        <div class="flex items-center gap-4">
+            <a href="dashboard.html" class="flex items-center gap-2 text-primary hover:text-white transition-colors">
+                <span class="material-symbols-outlined text-3xl">code_blocks</span>
+                <span class="text-xl font-bold tracking-tight text-white hidden md:block">CodeSync</span>
+            </a>
+            <!-- Breadcrumbs -->
+            <div class="hidden md:flex items-center gap-2 px-4 border-l border-border-dark ml-2">
+                <span class="text-gray-400 text-sm">project-alpha</span>
+                <span class="material-symbols-outlined text-gray-600 text-sm">chevron_right</span>
+                <span class="text-gray-400 text-sm">src</span>
+                <span class="material-symbols-outlined text-gray-600 text-sm">chevron_right</span>
+                <span class="text-white text-sm font-medium flex items-center gap-2">
+                    <span class="material-symbols-outlined text-yellow-400 text-base">javascript</span>
+                    App.js
+                </span>
+            </div>
+        </div>
+        <div class="flex items-center gap-3">
+            <div class="flex -space-x-2 mr-4">
+                <div class="w-8 h-8 rounded-full border-2 border-panel-dark bg-purple-500 flex items-center justify-center text-xs font-bold text-white relative group"
+                    title="Alice">
+                    A
+                    <div
+                        class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-panel-dark rounded-full">
+                    </div>
+                </div>
+                <div class="w-8 h-8 rounded-full border-2 border-panel-dark bg-blue-500 flex items-center justify-center text-xs font-bold text-white relative group"
+                    title="Bob">
+                    B
+                    <div
+                        class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-panel-dark rounded-full">
+                    </div>
+                </div>
+                <div class="w-8 h-8 rounded-full border-2 border-panel-dark bg-orange-500 flex items-center justify-center text-xs font-bold text-white relative group"
+                    title="Charlie">
+                    C
+                    <div
+                        class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-yellow-500 border-2 border-panel-dark rounded-full">
+                    </div>
+                </div>
+                <div
+                    class="w-8 h-8 rounded-full border-2 border-panel-dark bg-gray-700 flex items-center justify-center text-xs font-bold text-gray-300">
+                    +2
+                </div>
+            </div>
+            <button
+                class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white px-3 py-1.5 rounded-lg transition-colors border border-gray-700">
+                <span class="material-symbols-outlined text-[20px]">play_arrow</span>
+                <span class="text-sm font-medium">Run</span>
+            </button>
+            <button
+                class="flex items-center gap-2 bg-primary hover:bg-green-600 text-white px-4 py-1.5 rounded-lg transition-colors font-medium shadow-[0_0_15px_rgba(90,160,96,0.3)]">
+                <span class="material-symbols-outlined text-[18px]">share</span>
+                <span class="text-sm">Share</span>
+            </button>
+            <button
+                class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-800 transition-colors ml-2">
+                <span class="material-symbols-outlined text-gray-400">settings</span>
+            </button>
+            <div class="w-9 h-9 rounded-full bg-cover bg-center border border-gray-600 ml-1"
+                data-alt="User profile picture showing a woman looking at camera"
+                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAj9JqVsuJosDAdBqa3JFIgG6ko5GqFLJdPed2JIAz9FiEWgoj6edQCzS6SzBs3UQG4MG8hnW1uOQATR4bUwhniUkN65q-dy7FB1brT4ROzGyUkJnjgcrp0ReIXBZBAdsu6UwKZBS83wgrQ43zaYx29Mq7S0owc768XQuiF1xg_N0IzS6slWcAVbEE3rctYg2Bo5WhdJjdzdEgdMsyliJYLokvdDfXY61l3bpJv8dqgWLoLkhV6Ov6JqAhUL3RPpTijrNV4U6yaS-c')">
+            </div>
+        </div>
+    </header>
+    <!-- Main Workspace -->
+    <div class="flex flex-1 overflow-hidden relative">
+        <!-- Glow Effect -->
+        <div
+            class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none">
+        </div>
+        <div
+            class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] pointer-events-none">
+        </div>
+        <!-- Left Sidebar: Explorer -->
+        <aside class="w-64 bg-panel-dark border-r border-border-dark flex flex-col shrink-0 z-10 hidden md:flex">
+            <div class="flex items-center justify-between p-4 border-b border-border-dark/50">
+                <span class="text-xs font-bold text-gray-400 tracking-wider">EXPLORER</span>
+                <span
+                    class="material-symbols-outlined text-gray-500 text-sm cursor-pointer hover:text-white">more_horiz</span>
+            </div>
+            <div class="flex-1 overflow-y-auto py-2">
+                <div class="px-2">
+                    <div
+                        class="flex items-center gap-1.5 py-1 px-2 text-gray-300 hover:bg-white/5 rounded cursor-pointer">
+                        <span class="material-symbols-outlined text-sm transform rotate-90">chevron_right</span>
+                        <span class="font-bold text-sm">PROJECT-ALPHA</span>
+                    </div>
+                    <div class="pl-4 mt-1 flex flex-col gap-0.5">
+                        <div
+                            class="flex items-center gap-2 py-1 px-2 text-gray-300 hover:bg-white/5 rounded cursor-pointer group">
+                            <span
+                                class="material-symbols-outlined text-sm text-gray-500 group-hover:text-white transform rotate-90">chevron_right</span>
+                            <span class="material-symbols-outlined text-base text-blue-400">folder</span>
+                            <span class="text-sm truncate">public</span>
+                        </div>
+                        <div
+                            class="flex items-center gap-2 py-1 px-2 text-gray-300 hover:bg-white/5 rounded cursor-pointer group">
+                            <span
+                                class="material-symbols-outlined text-sm text-gray-500 group-hover:text-white transform rotate-90">chevron_right</span>
+                            <span class="material-symbols-outlined text-base text-blue-400">folder</span>
+                            <span class="text-sm truncate">src</span>
+                        </div>
+                        <div class="pl-6 flex flex-col gap-0.5 border-l border-gray-800 ml-3">
+                            <div
+                                class="flex items-center gap-2 py-1 px-2 text-gray-300 hover:bg-white/5 rounded cursor-pointer group">
+                                <span
+                                    class="material-symbols-outlined text-sm text-gray-500 group-hover:text-white">chevron_right</span>
+                                <span class="material-symbols-outlined text-base text-green-400">folder</span>
+                                <span class="text-sm truncate">components</span>
+                            </div>
+                            <div
+                                class="flex items-center gap-2 py-1 px-2 text-white bg-white/10 rounded cursor-pointer border-l-2 border-primary">
+                                <span
+                                    class="material-symbols-outlined text-base text-yellow-400 ml-[-2px]">javascript</span>
+                                <span class="text-sm truncate font-medium">App.js</span>
+                            </div>
+                            <div
+                                class="flex items-center gap-2 py-1 px-2 text-gray-400 hover:bg-white/5 rounded cursor-pointer">
+                                <span class="material-symbols-outlined text-base text-blue-300">css</span>
+                                <span class="text-sm truncate">App.css</span>
+                            </div>
+                            <div
+                                class="flex items-center gap-2 py-1 px-2 text-gray-400 hover:bg-white/5 rounded cursor-pointer">
+                                <span class="material-symbols-outlined text-base text-yellow-400">javascript</span>
+                                <span class="text-sm truncate">index.js</span>
+                            </div>
+                        </div>
+                        <div
+                            class="flex items-center gap-2 py-1 px-2 text-gray-400 hover:bg-white/5 rounded cursor-pointer mt-1">
+                            <span class="ml-4 material-symbols-outlined text-base text-red-400">data_object</span>
+                            <span class="text-sm truncate">package.json</span>
+                        </div>
+                        <div
+                            class="flex items-center gap-2 py-1 px-2 text-gray-400 hover:bg-white/5 rounded cursor-pointer">
+                            <span class="ml-4 material-symbols-outlined text-base text-gray-500">description</span>
+                            <span class="text-sm truncate">README.md</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Sidebar Footer -->
+            <div class="p-2 border-t border-border-dark">
+                <a href="login.html"
+                    class="flex items-center gap-2 p-2 hover:bg-white/5 rounded cursor-pointer text-gray-400 hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">account_circle</span>
+                    <span class="text-sm">Sign out</span>
+                </a>
+            </div>
+        </aside>
+        <!-- Center: Code Editor -->
+        <main class="flex-1 bg-background-dark relative flex flex-col font-mono text-sm overflow-hidden">
+            <!-- Tabs -->
+            <div class="flex items-center bg-panel-dark border-b border-border-dark overflow-x-auto scrollbar-hide">
+                <div
+                    class="flex items-center gap-2 px-4 py-2.5 bg-background-dark border-t-2 border-t-primary text-white min-w-[120px] max-w-[200px] border-r border-r-border-dark">
+                    <span class="material-symbols-outlined text-base text-yellow-400">javascript</span>
+                    <span class="truncate">App.js</span>
+                    <span
+                        class="material-symbols-outlined text-sm ml-auto text-gray-500 hover:text-white cursor-pointer">close</span>
+                </div>
+                <div
+                    class="flex items-center gap-2 px-4 py-2.5 bg-panel-dark text-gray-400 hover:bg-white/5 min-w-[120px] max-w-[200px] border-r border-border-dark cursor-pointer transition-colors">
+                    <span class="material-symbols-outlined text-base text-blue-300">css</span>
+                    <span class="truncate">App.css</span>
+                    <span
+                        class="material-symbols-outlined text-sm ml-auto text-gray-600 hover:text-white cursor-pointer opacity-0 group-hover:opacity-100">close</span>
+                </div>
+                <div
+                    class="flex items-center gap-2 px-4 py-2.5 bg-panel-dark text-gray-400 hover:bg-white/5 min-w-[120px] max-w-[200px] border-r border-border-dark cursor-pointer transition-colors">
+                    <span class="material-symbols-outlined text-base text-red-400">data_object</span>
+                    <span class="truncate">package.json</span>
+                </div>
+            </div>
+            <!-- Code Area -->
+            <div class="flex-1 overflow-y-auto p-4 relative" style="counter-reset: line 0;">
+                <div class="absolute inset-0 pl-16 pt-4 pointer-events-none z-0">
+                    <!-- Background Grid or something subtle could go here -->
+                </div>
+                <!-- Code Content -->
+                <div class="relative z-10 leading-relaxed">
+                    <div class="code-line text-gray-400"><span class="text-pink-400">import</span> React, { useState,
+                        useEffect } <span class="text-pink-400">from</span> <span class="text-green-300">'react'</span>;
+                    </div>
+                    <div class="code-line text-gray-400"><span class="text-pink-400">import</span> <span
+                            class="text-green-300">'./App.css'</span>;</div>
+                    <div class="code-line text-gray-400"><span class="text-pink-400">import</span> Dashboard <span
+                            class="text-pink-400">from</span> <span
+                            class="text-green-300">'./components/Dashboard'</span>;</div>
+                    <div class="code-line text-gray-400"> </div>
+                    <div class="code-line text-gray-400"><span class="text-pink-400">function</span> <span
+                            class="text-yellow-300">App</span>() {</div>
+                    <!-- Line with ALICE cursor -->
+                    <div class="code-line text-gray-400 relative">
+                          <span class="text-pink-400">const</span> [users, setUsers] = <span
+                            class="text-blue-300">useState</span>([]);
+
+                        <!-- Alice Cursor -->
+                        <div class="absolute left-[340px] top-0 h-6 w-0.5 bg-primary z-50">
+                            <div
+                                class="absolute -top-6 left-0 bg-primary text-background-dark text-[10px] font-bold px-1.5 py-0.5 rounded-t-sm whitespace-nowrap font-display">
+                                Alice</div>
+                        </div>
+                    </div>
+                    <div class="code-line text-gray-400">  <span class="text-pink-400">const</span> [loading,
+                        setLoading] = <span class="text-blue-300">useState</span>(<span
+                            class="text-purple-400">true</span>);</div>
+                    <div class="code-line text-gray-400"> </div>
+                    <div class="code-line text-gray-400">  <span class="text-blue-300">useEffect</span>(() =&gt; {</div>
+                    <div class="code-line text-gray-400">    <span class="text-blue-300">fetchUsers</span>().<span
+                            class="text-blue-300">then</span>(data =&gt; {</div>
+                    <div class="code-line text-gray-400">      <span class="text-blue-300">setUsers</span>(data);</div>
+                    <div class="code-line text-gray-400">      <span class="text-blue-300">setLoading</span>(<span
+                            class="text-purple-400">false</span>);</div>
+                    <div class="code-line text-gray-400">    });</div>
+                    <div class="code-line text-gray-400">  }, []);</div>
+                    <div class="code-line text-gray-400"> </div>
+                    <!-- Line with BOB cursor -->
+                    <div class="code-line text-gray-400 relative">
+                          <span class="text-pink-400">return</span> (
+                        <div class="absolute left-[120px] top-0 h-6 w-0.5 bg-blue-500 z-50">
+                            <div
+                                class="absolute -top-6 left-0 bg-blue-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-t-sm whitespace-nowrap font-display">
+                                Bob</div>
+                        </div>
+                    </div>
+                    <!-- Line with CHARLIE selection -->
+                    <div class="code-line text-gray-400 relative">
+                            &lt;<span class="text-pink-400">div</span> <span
+                            class="text-yellow-300">className</span>=<span
+                            class="text-green-300 bg-orange-500/30 border-y border-orange-500/50">"app-container"</span>&gt;
+                        <div class="absolute left-[380px] top-0 h-6 w-0.5 bg-orange-500 z-50">
+                            <div
+                                class="absolute -top-6 left-0 bg-orange-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-t-sm whitespace-nowrap font-display">
+                                Charlie</div>
+                        </div>
+                    </div>
+                    <div class="code-line text-gray-400">      {loading ? (</div>
+                    <div class="code-line text-gray-400">        &lt;<span class="text-yellow-300">Loader</span> /&gt;
+                    </div>
+                    <div class="code-line text-gray-400">      ) : (</div>
+                    <div class="code-line text-gray-400">        &lt;<span class="text-yellow-300">Dashboard</span>
+                        <span class="text-orange-300">data</span>={users} /&gt;</div>
+                    <div class="code-line text-gray-400">      )}</div>
+                    <div class="code-line text-gray-400">    &lt;/<span class="text-pink-400">div</span>&gt;</div>
+                    <div class="code-line text-gray-400">  );</div>
+                    <div class="code-line text-gray-400">}</div>
+                    <div class="code-line text-gray-400"> </div>
+                    <div class="code-line text-gray-400"><span class="text-pink-400">export default</span> App;</div>
+                    <div class="code-line text-gray-400 cursor-blink">|</div>
+                </div>
+            </div>
+            <!-- Terminal/Console Area (Collapsed style) -->
+            <div class="h-10 border-t border-border-dark bg-panel-dark flex items-center px-4 justify-between">
+                <div class="flex items-center gap-4 text-xs">
+                    <div class="flex items-center gap-1.5 text-white cursor-pointer hover:underline">
+                        <span class="material-symbols-outlined text-sm">terminal</span>
+                        TERMINAL
+                    </div>
+                    <div
+                        class="flex items-center gap-1.5 text-gray-500 cursor-pointer hover:text-white transition-colors">
+                        <span class="material-symbols-outlined text-sm">bug_report</span>
+                        DEBUG CONSOLE
+                    </div>
+                    <div
+                        class="flex items-center gap-1.5 text-gray-500 cursor-pointer hover:text-white transition-colors">
+                        <span class="material-symbols-outlined text-sm">warning</span>
+                        PROBLEMS (0)
+                    </div>
+                </div>
+                <div class="text-gray-500 hover:text-white cursor-pointer">
+                    <span class="material-symbols-outlined text-lg">expand_less</span>
+                </div>
+            </div>
+        </main>
+        <!-- Right Panel: Utilities & Collaboration -->
+        <aside class="w-80 bg-panel-dark border-l border-border-dark flex flex-col shrink-0 z-10 hidden lg:flex">
+            <!-- Collaborators Section -->
+            <div class="p-4 border-b border-border-dark">
+                <h3 class="text-xs font-bold text-gray-400 tracking-wider mb-4 uppercase flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">group</span>
+                    Collaborators (4)
+                </h3>
+                <div class="flex flex-col gap-3">
+                    <!-- User 1 -->
+                    <div
+                        class="flex items-center justify-between group cursor-pointer p-2 rounded-lg hover:bg-white/5 transition-colors">
+                        <div class="flex items-center gap-3">
+                            <div class="relative">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center text-xs font-bold text-white border border-gray-600">
+                                    A</div>
+                                <div
+                                    class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-panel-dark rounded-full">
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-white">Alice Chen</p>
+                                <p class="text-xs text-primary">Editing line 6</p>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined text-gray-500 group-hover:text-white text-lg">mic</span>
+                    </div>
+                    <!-- User 2 -->
+                    <div
+                        class="flex items-center justify-between group cursor-pointer p-2 rounded-lg hover:bg-white/5 transition-colors">
+                        <div class="flex items-center gap-3">
+                            <div class="relative">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-xs font-bold text-white border border-gray-600">
+                                    B</div>
+                                <div
+                                    class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-panel-dark rounded-full">
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-white">Bob Smith</p>
+                                <p class="text-xs text-blue-400">Editing line 15</p>
+                            </div>
+                        </div>
+                        <span
+                            class="material-symbols-outlined text-gray-500 group-hover:text-white text-lg">mic_off</span>
+                    </div>
+                    <!-- User 3 -->
+                    <div
+                        class="flex items-center justify-between group cursor-pointer p-2 rounded-lg hover:bg-white/5 transition-colors">
+                        <div class="flex items-center gap-3">
+                            <div class="relative">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-xs font-bold text-white border border-gray-600">
+                                    C</div>
+                                <div
+                                    class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-yellow-500 border-2 border-panel-dark rounded-full">
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-white">Charlie D.</p>
+                                <p class="text-xs text-orange-400">Selecting line 21</p>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined text-gray-500 group-hover:text-white text-lg">mic</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Chat Section -->
+            <div class="flex-1 flex flex-col min-h-0 bg-background-dark/30 backdrop-blur-sm">
+                <div class="p-4 border-b border-border-dark flex justify-between items-center">
+                    <h3 class="text-xs font-bold text-gray-400 tracking-wider uppercase flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">chat</span>
+                        Live Chat
+                    </h3>
+                </div>
+                <div class="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+                    <!-- Message 1 -->
+                    <div class="flex gap-3">
+                        <div
+                            class="w-6 h-6 rounded-full bg-blue-500 flex-shrink-0 mt-1 flex items-center justify-center text-[10px] font-bold text-white">
+                            B</div>
+                        <div class="flex flex-col gap-1">
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-xs font-bold text-white">Bob</span>
+                                <span class="text-[10px] text-gray-500">10:42 AM</span>
+                            </div>
+                            <p
+                                class="text-sm text-gray-300 bg-panel-dark p-2 rounded-lg rounded-tl-none border border-border-dark">
+                                Should we refactor this hook? It's getting a bit long.</p>
+                        </div>
+                    </div>
+                    <!-- Message 2 -->
+                    <div class="flex gap-3">
+                        <div
+                            class="w-6 h-6 rounded-full bg-purple-500 flex-shrink-0 mt-1 flex items-center justify-center text-[10px] font-bold text-white">
+                            A</div>
+                        <div class="flex flex-col gap-1">
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-xs font-bold text-white">Alice</span>
+                                <span class="text-[10px] text-gray-500">10:44 AM</span>
+                            </div>
+                            <p
+                                class="text-sm text-gray-300 bg-panel-dark p-2 rounded-lg rounded-tl-none border border-border-dark">
+                                Good point. Let me finish adding the state logic first.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Chat Input -->
+                <div class="p-3 border-t border-border-dark bg-panel-dark">
+                    <div class="relative">
+                        <input
+                            class="w-full bg-background-dark border border-gray-700 text-white text-sm rounded-lg pl-3 pr-10 py-2.5 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder-gray-600"
+                            placeholder="Type a message..." type="text" />
+                        <button
+                            class="absolute right-2 top-2 text-primary hover:text-green-400 p-0.5 rounded transition-colors">
+                            <span class="material-symbols-outlined text-xl">send</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+</body>
+
+</html>

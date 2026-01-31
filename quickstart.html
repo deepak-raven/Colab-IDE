@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>CodeSync IDE Quick Start</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5aa060",
+                        "background-light": "#f6f7f6",
+                        "background-dark": "#161c17",
+                        "surface-dark": "#1e261f",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["Space Grotesk", "monospace"],
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px" },
+                    boxShadow: {
+                        "glow": "0 0 40px -5px rgba(90, 160, 96, 0.25)",
+                    }
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #161c17; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #303b31; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5aa060; 
+        }
+        .bg-grid-pattern {
+            background-image: radial-gradient(circle, #303b31 1px, transparent 1px);
+            background-size: 40px 40px;
+        }.console-scrollbar::-webkit-scrollbar-track {
+            background: #000000;
+        }
+        .console-scrollbar::-webkit-scrollbar-thumb {
+            background: #1A1A1A;
+        }
+        .console-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #5aa060;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white overflow-hidden selection:bg-primary/30">
+    <div class="fixed inset-0 z-0 pointer-events-none opacity-20 bg-grid-pattern"></div>
+    <div
+        class="fixed bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-primary/5 to-transparent z-0 pointer-events-none">
+    </div>
+    <div class="relative flex h-screen w-full flex-col z-10">
+        <header
+            class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#303b31] bg-[#161c17]/90 backdrop-blur-sm px-6 py-3">
+            <div class="flex items-center gap-4">
+                <div class="size-6 text-primary">
+                    <span class="material-symbols-outlined text-2xl">terminal</span>
+                </div>
+                <h2 class="text-white text-lg font-bold tracking-tight">CodeSync <span
+                        class="text-[#5aa060] text-xs align-top font-normal ml-1">v2.4.1</span></h2>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="hidden md:flex items-center gap-2 text-xs font-mono text-zinc-400">
+                    <span class="flex h-2 w-2 rounded-full bg-primary animate-pulse"></span>
+                    <span>US-EAST-1: CONNECTED</span>
+                    <span class="mx-2 text-zinc-600">|</span>
+                    <span>PING: 12ms</span>
+                </div>
+                <div class="flex gap-2">
+                    <button
+                        class="flex size-9 cursor-pointer items-center justify-center rounded-lg bg-[#303b31] text-white hover:bg-[#3d4b3e] transition-colors">
+                        <span class="material-symbols-outlined text-[20px]">notifications</span>
+                    </button>
+                    <button
+                        class="flex size-9 cursor-pointer items-center justify-center rounded-lg bg-[#303b31] text-white hover:bg-[#3d4b3e] transition-colors">
+                        <span class="material-symbols-outlined text-[20px]">settings</span>
+                    </button>
+                </div>
+                <div class="bg-center bg-no-repeat bg-cover rounded-full size-9 border border-[#303b31]"
+                    data-alt="User profile avatar showing a stylized robot or developer icon"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDO9lKp18ZcGMH96-mYIjyVkfw_bcKBqR1qyIpBQecIGwCkFoGEIVWME5JqnVn33pD2rVf5KBhwgNRoasmxVTYb0mKwh8ecHhK4b-Rr5aBZP7H6jYu1heFNqqVJQRRHhpoLZwu-blD09f2wVe_lssl8ww3SIr1DL_23PzDsqrezJEtIJPgmUFsGAgl9RZ3Ml8lFwPoINNwsHVd-TYwpqOgaNsd_7cLLcK62HX8p7F_d0IcsjHXdw3PA_8SAz7dU3nC9r4yAcGQpbgs");'>
+                </div>
+            </div>
+        </header>
+        <main class="flex-1 flex flex-col lg:flex-row overflow-hidden">
+            <div class="flex-1 flex flex-col items-center justify-center p-6 lg:p-12 overflow-y-auto">
+                <div class="w-full max-w-md space-y-8">
+                    <div class="text-center space-y-2">
+                        <h1 class="text-3xl md:text-4xl font-bold text-white tracking-tight">Ready to Code, Alex?</h1>
+                        <p class="text-zinc-400">Select a workspace mode to begin.</p>
+                    </div>
+                    <div
+                        class="bg-surface-dark border border-[#303b31] rounded-2xl p-6 shadow-glow relative overflow-hidden group">
+                        <div
+                            class="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none">
+                        </div>
+                        <div class="space-y-4 relative z-10">
+                            <a href="editor.html"
+                                class="w-full group/btn flex items-center justify-between bg-primary hover:bg-[#4d8b52] text-background-dark h-16 px-6 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg">
+                                <div class="flex items-center gap-3">
+                                    <span class="material-symbols-outlined text-2xl">add_circle</span>
+                                    <span>Start Live Session</span>
+                                </div>
+                                <span
+                                    class="material-symbols-outlined opacity-0 group-hover/btn:opacity-100 transition-opacity -translate-x-2 group-hover/btn:translate-x-0">arrow_forward</span>
+                            </a>
+                            <a href="editor.html"
+                                class="w-full group/btn flex items-center justify-start gap-3 bg-[#303b31]/50 hover:bg-[#303b31] border border-[#303b31] text-white h-14 px-6 rounded-xl font-medium text-base transition-all duration-200">
+                                <span
+                                    class="material-symbols-outlined text-zinc-400 group-hover/btn:text-white transition-colors">folder_open</span>
+                                <span>Open Local Folder</span>
+                            </a>
+                            <div class="relative py-2">
+                                <div class="absolute inset-0 flex items-center">
+                                    <div class="w-full border-t border-[#303b31]"></div>
+                                </div>
+                                <div class="relative flex justify-center text-xs uppercase">
+                                    <span class="bg-surface-dark px-2 text-zinc-500">or join existing</span>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <div class="relative flex-1">
+                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                        <span class="material-symbols-outlined text-zinc-500 text-[20px]">link</span>
+                                    </div>
+                                    <input
+                                        class="block w-full h-12 rounded-lg border-0 py-1.5 pl-10 pr-20 text-white bg-[#111512] ring-1 ring-inset ring-[#303b31] placeholder:text-zinc-600 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 transition-all"
+                                        placeholder="Paste invite link..." type="text" />
+                                </div>
+                                <button
+                                    class="h-12 w-12 flex items-center justify-center rounded-lg bg-[#303b31] hover:bg-primary hover:text-background-dark text-white transition-colors">
+                                    <span class="material-symbols-outlined">login</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-xs text-zinc-500">
+                            <span class="material-symbols-outlined text-[14px] align-middle mr-1">info</span>
+                            Press <kbd class="px-1.5 py-0.5 rounded bg-[#303b31] text-zinc-300 font-mono">Cmd+K</kbd> to
+                            open command palette
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <aside class="w-full lg:w-[400px] border-l border-[#1A1A1A] bg-[#000000] backdrop-blur-md flex flex-col">
+                <div class="p-5 border-b border-[#1A1A1A] flex justify-between items-center bg-[#0D0D0D]">
+                    <h3 class="text-white font-bold flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-sm">history</span>
+                        Recent Activity
+                    </h3>
+                    <button class="text-xs text-primary hover:text-white transition-colors">View All</button>
+                </div>
+                <div class="flex-1 overflow-y-auto p-4 space-y-4 console-scrollbar">
+                    <div class="flex gap-3 items-start group">
+                        <div class="mt-1">
+                            <div
+                                class="size-8 rounded-full bg-[#0D0D0D] flex items-center justify-center border border-[#1A1A1A]">
+                                <span class="material-symbols-outlined text-zinc-400 text-sm">commit</span>
+                            </div>
+                        </div>
+                        <div class="flex-1 space-y-1">
+                            <p class="text-sm text-zinc-300"><span class="text-white font-semibold">Sarah M.</span>
+                                pushed to <span
+                                    class="font-mono text-xs bg-[#1A1A1A] px-1.5 py-0.5 rounded text-primary">main/auth-fix</span>
+                            </p>
+                            <p class="text-xs text-zinc-400 font-mono">3df2a91 • Fixed JWT expiration bug</p>
+                            <p class="text-[10px] text-zinc-400 uppercase tracking-wider">10 min ago</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 items-start group">
+                        <div class="mt-1">
+                            <div class="size-8 rounded-full bg-[#0D0D0D] flex items-center justify-center border border-[#1A1A1A]"
+                                data-alt="User avatar for Alex K."
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDNM0KvNngTTKu_E4F_plqBFRNx5iLqbOyWFfT3mhEoLC5svaAhSJFO11ueWAywiuf12w2Ln8fzO649bvdurba3Hpl61iQVu_8EsWce2-aStGORAuwqs5Xb5V1uaJRK5tMXxBPY0QoFmRAS9_LtFQN2gFV_qcJ012Tcqs7-Z5ICjjgP8AKJoFzpl9ME5ec6KggSeYqS7Y99nTU0VpZ3Yr9NxrCElN_l1S0eXc95sgfDHnzArLooCWN6rBaF6_j3Znv-I_fXV_xgMQ4"); background-size: cover;'>
+                            </div>
+                        </div>
+                        <div class="flex-1 space-y-1">
+                            <p class="text-sm text-zinc-300"><span class="text-white font-semibold">Alex K.</span>
+                                joined <span class="text-white">Workspace-Alpha</span></p>
+                            <div class="flex -space-x-2 overflow-hidden py-1">
+                                <img alt="Collaborator 1"
+                                    class="inline-block h-5 w-5 rounded-full ring-2 ring-[#000000]"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLyAWdS8EFPGPnxgd2ecT2VtPkqaoPszykylUJ_ed17rq6BN0fiFk6J6GucBz28Z4sW4j6VWZm2KVG0uBtuYBkJwdxphCYa-YdUxSUGS9maXqcCMTAYe-oWIXKGdxfVUGnWTmT3OVaPkRK7mQPeoJEJV0dxNJp8Y4HWk2k8YGKlwgJe9HoZjzmH8YuJS4P-6gZRQveYVIdKC1jfTY0EVgH3T117DSHTafP2yKKM69i-U_w4sKDzLVzkGmxmQOFnM95gcFKewwuRf8" />
+                                <img alt="Collaborator 2"
+                                    class="inline-block h-5 w-5 rounded-full ring-2 ring-[#000000]"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGHjKNRrYp_602zJq0dvarOjUrywCnTpVD5oNNNgQAWdu0w_Q9surQHPndNZhobsBqiW2dPbVrY98tRjjyBDZ1j1F6HiA2B_un5ntzE9heqVi_9LTmdvfEuYzF_6aigAuSFuuv9D_5-1e0MZ7lEUTI94e_mNRnflpVZxd91Ms6f5uuEYOPZLqsKmxY7l4vla8J2bdMRfhdX7ynGKmEq-B0TgBHoguxT0cbhDTD7Pmv0MlmRcLbqtYVjVfsKbS9btZ_KClPeIV13Xg" />
+                                <img alt="Collaborator 3"
+                                    class="inline-block h-5 w-5 rounded-full ring-2 ring-[#000000]"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA15jj35JtRPT8VDUiQVF83EByKWS34DMCVpZjGDpZCovtWQdLN8qIpLVsNl3SjFqsqfZTGdRVmaSYNAvfWYf2yg7iWV6h5WIcKAGEz6gwyqlhOMfORdeNqfhExwN0D6FKsh7QhrzjZRzD8culQu144VeJQyl__ob9NQtHEwYdODVqh3xvHnk01tqnQLv__09N7BHdcDl1fPPGJb34r8d-i0q3HP9eoKsy54Fe1lG3SnAQzbPlcDThHqVFtyy5K005v_-2wJBUw2s" />
+                            </div>
+                            <p class="text-[10px] text-zinc-400 uppercase tracking-wider">42 min ago</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 items-start group opacity-75 hover:opacity-100 transition-opacity">
+                        <div class="mt-1">
+                            <div
+                                class="size-8 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30">
+                                <span class="material-symbols-outlined text-primary text-sm">rocket_launch</span>
+                            </div>
+                        </div>
+                        <div class="flex-1 space-y-1">
+                            <p class="text-sm text-zinc-300">Deployment successful</p>
+                            <p class="text-xs text-zinc-400 font-mono text-primary">v2.1.0-release → prod</p>
+                            <p class="text-[10px] text-zinc-400 uppercase tracking-wider">2 hours ago</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 items-start group opacity-60 hover:opacity-100 transition-opacity">
+                        <div class="mt-1">
+                            <div
+                                class="size-8 rounded-full bg-[#0D0D0D] flex items-center justify-center border border-[#1A1A1A]">
+                                <span class="material-symbols-outlined text-zinc-400 text-sm">folder_shared</span>
+                            </div>
+                        </div>
+                        <div class="flex-1 space-y-1">
+                            <p class="text-sm text-zinc-300"><span class="text-white font-semibold">Dave R.</span>
+                                shared a snippet</p>
+                            <div
+                                class="bg-[#0D0D0D] border border-[#1A1A1A] p-2 rounded text-xs font-mono text-zinc-400 overflow-hidden text-ellipsis whitespace-nowrap">
+                                const connect = async () =&gt; {...}
+                            </div>
+                            <p class="text-[10px] text-zinc-400 uppercase tracking-wider">Yesterday</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 border-t border-[#1A1A1A] bg-[#0D0D0D]">
+                    <button
+                        class="w-full flex items-center justify-center gap-2 py-2 rounded-lg border border-dashed border-[#1A1A1A] text-zinc-400 hover:text-white hover:border-zinc-400 hover:bg-[#1A1A1A]/50 transition-all text-sm font-medium">
+                        <span class="material-symbols-outlined text-base">person_add</span>
+                        Invite Teammate
+                    </button>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+</body>
+
+</html>
