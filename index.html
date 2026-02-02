@@ -210,86 +210,280 @@
                     </div>
                 </div>
             </section>
-            <section class="py-10 border-y border-white/5 bg-white/[0.02] backdrop-blur-sm">
-                <div class="max-w-7xl mx-auto px-6 text-center">
-                    <p class="text-sm font-medium text-slate-500 mb-8 uppercase tracking-widest">Trusted by engineering
-                        teams at</p>
-                    <div
-                        class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-                        <div
-                            class="flex items-center gap-2 text-xl font-bold text-white hover:text-primary transition-colors cursor-default">
-                            <span class="material-symbols-outlined">hexagon</span> AcmeCorp
+
+            <section class="py-24 px-6 max-w-7xl mx-auto overflow-hidden relative">
+                <!-- Inline styles for unique animations in this section -->
+                <style>
+                    /* Orbit Animations */
+                    @keyframes orbit {
+                        from {
+                            transform: rotate(0deg);
+                        }
+
+                        to {
+                            transform: rotate(360deg);
+                        }
+                    }
+
+                    @keyframes orbit-reverse {
+                        from {
+                            transform: rotate(360deg);
+                        }
+
+                        to {
+                            transform: rotate(0deg);
+                        }
+                    }
+
+                    /* Cursor Animations - making them look like actual movement */
+                    @keyframes cursor-move-1 {
+                        0% {
+                            transform: translate(0, 0);
+                        }
+
+                        20% {
+                            transform: translate(60px, 30px);
+                        }
+
+                        40% {
+                            transform: translate(60px, 30px) scale(0.9);
+                        }
+
+                        /* Click */
+                        45% {
+                            transform: translate(60px, 30px) scale(1);
+                        }
+
+                        70% {
+                            transform: translate(-20px, 80px);
+                        }
+
+                        100% {
+                            transform: translate(0, 0);
+                        }
+                    }
+
+                    @keyframes cursor-move-2 {
+                        0% {
+                            transform: translate(0, 0);
+                        }
+
+                        30% {
+                            transform: translate(-50px, -40px);
+                        }
+
+                        45% {
+                            transform: translate(-20px, 10px);
+                        }
+
+                        60% {
+                            transform: translate(-20px, 10px) scale(0.9);
+                        }
+
+                        100% {
+                            transform: translate(0, 0);
+                        }
+                    }
+
+                    @keyframes cursor-move-3 {
+                        0% {
+                            transform: translate(0, 0);
+                        }
+
+                        25% {
+                            transform: translate(-40px, -50px);
+                        }
+
+                        50% {
+                            transform: translate(-80px, -10px);
+                        }
+
+                        80% {
+                            transform: translate(20px, 30px);
+                        }
+
+                        100% {
+                            transform: translate(0, 0);
+                        }
+                    }
+
+                    /* Typing Animation */
+                    @keyframes typing {
+                        from {
+                            width: 0
+                        }
+
+                        to {
+                            width: 100%
+                        }
+                    }
+
+                    @keyframes blink-caret {
+
+                        from,
+                        to {
+                            border-color: transparent
+                        }
+
+                        50% {
+                            border-color: #5AA060
+                        }
+                    }
+
+                    .orbit-container {
+                        animation: orbit 60s linear infinite;
+                    }
+
+                    .orbit-item {
+                        animation: orbit-reverse 60s linear infinite;
+                    }
+
+                    .typing-text {
+                        overflow: hidden;
+                        border-right: 2px solid #5AA060;
+                        white-space: nowrap;
+                        margin: 0;
+                        animation: typing 3.5s steps(30, end) infinite alternate, blink-caret .75s step-end infinite;
+                        max-width: fit-content;
+                    }
+
+                    /* Cursor Classes */
+                    .cursor-1 {
+                        animation: cursor-move-1 8s ease-in-out infinite;
+                    }
+
+                    .cursor-2 {
+                        animation: cursor-move-2 10s ease-in-out infinite;
+                    }
+
+                    .cursor-3 {
+                        animation: cursor-move-3 12s ease-in-out infinite;
+                    }
+                </style>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <!-- Left Column -->
+                    <div class="relative z-10 flex flex-col justify-center">
+                        <h2 class="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
+                            Unlock <span
+                                class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-400">Synchronized</span><br>
+                            Development Power
+                        </h2>
+                        <p class="text-xl text-slate-400 mb-12 max-w-lg">
+                            Stop screen sharing. Start interacting. Experience the fluidity of local development with
+                            the power of multiplayer connection.
+                        </p>
+
+                        <!-- Interactive Area with Cursors -->
+                        <div class="relative h-64 w-full mb-8 select-none pointer-events-none">
+                            <!-- Cursor 1: Multi -->
+                            <div class="absolute top-10 left-10 cursor-1 z-20">
+                                <svg class="w-6 h-6 text-primary drop-shadow-md transform -rotate-12"
+                                    fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M7 2l12 11.2-5.8.5 3.3 7.3-2.2.9-3.2-7.4-4.4 4V2z" />
+                                </svg>
+                                <div
+                                    class="ml-4 -mt-2 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-lg">
+                                    Multi</div>
+                            </div>
+
+                            <!-- Cursor 2: Cursor -->
+                            <div class="absolute top-1/2 left-1/2 cursor-2 z-10">
+                                <svg class="w-6 h-6 text-blue-500 drop-shadow-md transform -rotate-12"
+                                    fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M7 2l12 11.2-5.8.5 3.3 7.3-2.2.9-3.2-7.4-4.4 4V2z" />
+                                </svg>
+                                <div
+                                    class="ml-4 -mt-2 bg-blue-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-lg">
+                                    Cursor</div>
+                            </div>
+
+                            <!-- Cursor 3: Support -->
+                            <div class="absolute bottom-10 right-20 cursor-3 z-30">
+                                <svg class="w-6 h-6 text-purple-500 drop-shadow-md transform -rotate-12"
+                                    fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M7 2l12 11.2-5.8.5 3.3 7.3-2.2.9-3.2-7.4-4.4 4V2z" />
+                                </svg>
+                                <div
+                                    class="ml-4 -mt-2 bg-purple-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-lg">
+                                    Support</div>
+                            </div>
                         </div>
+
+                        <!-- Terminal -->
                         <div
-                            class="flex items-center gap-2 text-xl font-bold text-white hover:text-primary transition-colors cursor-default">
-                            <span class="material-symbols-outlined">atr</span> Globex
-                        </div>
-                        <div
-                            class="flex items-center gap-2 text-xl font-bold text-white hover:text-primary transition-colors cursor-default">
-                            <span class="material-symbols-outlined">all_inclusive</span> InfiniteLoop
-                        </div>
-                        <div
-                            class="flex items-center gap-2 text-xl font-bold text-white hover:text-primary transition-colors cursor-default">
-                            <span class="material-symbols-outlined">offline_bolt</span> FlashTech
-                        </div>
-                        <div
-                            class="flex items-center gap-2 text-xl font-bold text-white hover:text-primary transition-colors cursor-default">
-                            <span class="material-symbols-outlined">forest</span> GreenSpace
+                            class="bg-[#1e1e1e] rounded-xl border border-white/10 p-5 font-mono text-sm shadow-2xl w-full max-w-md transform transition-transform hover:scale-[1.02]">
+                            <div class="flex gap-2 mb-4 opacity-50">
+                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            </div>
+                            <div class="flex items-center gap-2 text-slate-300">
+                                <span class="text-primary font-bold">➜</span>
+                                <span class="text-blue-400">~</span>
+                                <div class="typing-text pr-1">ping 8.8.8.8 -t --zero-latency</div>
+                            </div>
+                            <div class="text-slate-500 mt-2 text-xs">
+                                64 bytes from 8.8.8.8: icmp_seq=1 ttl=118 time=12ms<br>
+                                64 bytes from 8.8.8.8: icmp_seq=2 ttl=118 time=11ms
+                            </div>
                         </div>
                     </div>
-                </div>
-            </section>
-            <section class="py-20 px-6 max-w-7xl mx-auto relative">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Everything you need to ship faster</h2>
-                    <p class="text-slate-400 max-w-2xl mx-auto">Stop screen sharing and start actually collaborating.
-                        Our engine is built from the ground up for speed.</p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div
-                        class="group p-8 rounded-2xl bg-surface/50 backdrop-blur-md border border-white/5 hover:border-primary/50 hover:bg-surface/80 transition-all duration-300 relative overflow-hidden">
+
+                    <!-- Right Column: Orbits -->
+                    <div class="relative flex items-center justify-center h-[600px] lg:h-auto">
+                        <!-- Rings - Made more visible -->
                         <div
-                            class="absolute top-0 right-0 p-32 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/10 transition-all">
+                            class="absolute w-[300px] h-[300px] md:w-[500px] md:h-[500px] border border-white/10 rounded-full">
                         </div>
                         <div
-                            class="size-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary mb-6">
-                            <span class="material-symbols-outlined text-3xl">bolt</span>
+                            class="absolute w-[200px] h-[200px] md:w-[350px] md:h-[350px] border border-white/10 rounded-full">
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Zero Latency</h3>
-                        <p class="text-slate-400 leading-relaxed">
-                            Experience real-time typing with sub-30ms latency. It feels like you're typing on your local
-                            machine, even when your teammate is halfway across the world.
-                        </p>
-                    </div>
-                    <div
-                        class="group p-8 rounded-2xl bg-surface/50 backdrop-blur-md border border-white/5 hover:border-primary/50 hover:bg-surface/80 transition-all duration-300 relative overflow-hidden">
+
+                        <!-- Center Hub -->
                         <div
-                            class="absolute top-0 right-0 p-32 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/10 transition-all">
+                            class="relative z-10 flex flex-col items-center justify-center size-32 bg-background-dark border border-white/10 rounded-full shadow-[0_0_50px_rgba(90,160,96,0.2)]">
+                            <span class="material-symbols-outlined text-4xl text-primary mb-1">hub</span>
+                            <span class="text-xs font-bold text-white tracking-widest">SYNC</span>
                         </div>
-                        <div
-                            class="size-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary mb-6">
-                            <span class="material-symbols-outlined text-3xl">terminal</span>
+
+                        <!-- Orbiting Elements Ring 1 -->
+                        <div class="absolute w-[200px] h-[200px] md:w-[350px] md:h-[350px] orbit-container">
+                            <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 orbit-item">
+                                <div class="size-12 rounded-full border-2 border-surface bg-cover bg-center shadow-lg"
+                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAYe4kGI78kcO-o291nw4eolVwBfktDFjUnxd8cKo8G5qZxKACH2LnnrtZxEHuNJDLH4jcTu0iUrIv_1PNRhZieXBZ282n1Fc35tXQeEONSf_bZxCwcZig0QOraXZYgEi9U2Q4eIunIWpNzcFNtqIu-Be0z2JOXM-7BJmVoZQ7zU6leTN1ryxYVZckRNSc4vA36pVjJQdMB8_ueA_pJxzxMbKH8ppGJ2WFuk-XCcsjEnZuNVJFDcmAv2w1yIbwdUGq3pQXAog82DZA')">
+                                </div>
+                                <div
+                                    class="absolute top-0 right-0 size-3 bg-green-500 border-2 border-surface rounded-full">
+                                </div>
+                            </div>
+                            <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 orbit-item">
+                                <div class="size-10 rounded-full border-2 border-surface bg-cover bg-center shadow-lg grayscale opacity-70"
+                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCpUER6c_f3AXY1T4t2-69dhxosE1tLMKNBS5yq1LVFunVvEew7GDEVFcclK3JCiRgynTR5KZExyhQmiI65ld_UDW6HGKHVBIMtFNUg7wuKeeTij336vhjmRzv26_5_YErjvliq3YzcI1ZTJ9kch9Vrepx1TwUZHuqj-v-lD7ORuXZ25rY7lBdyfOops3ywWTnBLPmOJt-Jyjjb_gyeYKNLrOPtsIBhG5yt5021PY0FRD-tsKRVrQ5fAJTPKxxIF2LvcKeqPA-JnXs')">
+                                </div>
+                            </div>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Integrated Terminal</h3>
-                        <p class="text-slate-400 leading-relaxed">
-                            Share terminal sessions instantly. Run commands, install packages, and debug servers
-                            together without switching contexts or setting up SSH.
-                        </p>
-                    </div>
-                    <div
-                        class="group p-8 rounded-2xl bg-surface/50 backdrop-blur-md border border-white/5 hover:border-primary/50 hover:bg-surface/80 transition-all duration-300 relative overflow-hidden">
-                        <div
-                            class="absolute top-0 right-0 p-32 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/10 transition-all">
+
+                        <!-- Orbiting Elements Ring 2 -->
+                        <div class="absolute w-[300px] h-[300px] md:w-[500px] md:h-[500px] orbit-container"
+                            style="animation-duration: 80s; animation-direction: reverse;">
+                            <div class="absolute top-1/4 left-0 -translate-x-1/2 orbit-item"
+                                style="animation-direction: normal;">
+                                <div class="size-14 rounded-full border-2 border-surface bg-cover bg-center shadow-lg"
+                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBm-68txnSBqUrbdA-EvewmhL47aEIOR71MTy8KBNK1YHG5ZFfqJOhJLziOZBI8Lm13-IM1dW7TC6tM74EN-fFvB978vHlY2WcumR2CKKeuBlCJbpXABi7HcadGkMGsghdOgy_9YofEqBdUc5hip36nxCe-iCMy69WjtJSC7NNxP0e0y-PgmMYSc7TyAx-7wqcNTzhUd6F7ZLLh967Z8weJ_-smnbxdFphEczy9RecLUZal0LZmrrldtPdh_t465tsTX5vR-nOlt9Q')">
+                                </div>
+                                <div
+                                    class="absolute top-0 right-0 size-4 bg-primary border-2 border-surface rounded-full flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-[8px] text-white">mic</span>
+                                </div>
+                            </div>
+                            <div class="absolute bottom-1/4 right-0 translate-x-1/2 orbit-item"
+                                style="animation-direction: normal;">
+                                <div class="size-12 rounded-full border-2 border-surface bg-cover bg-center shadow-lg"
+                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuClJSeB7irgUv9rTOtk8AMCnz2ttKy7Bl5iFAEnXybT0i7tqlAEP7xIaNb3CyliCsr5ucv4K74SrpcT_mSMQ09UnQXHFE3miXTfqmI0S0wxF_vVVIVFKxJxu8tZdV0hsKkAWUWmaNSTALZfHAFmfZVL4dm3I_A_DvxYtgYcwyopgBr89tXwMdrvk1nC6npwN-dcLEWSZ5mFlhLBiOpCcOd6PXeOWhPEK84zMoy62cRo6k5l7dMa7g4DgRH141uVorYSTQ60CiAYSkM')">
+                                </div>
+                            </div>
                         </div>
-                        <div
-                            class="size-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary mb-6">
-                            <span class="material-symbols-outlined text-3xl">mic</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Voice &amp; Video Chat</h3>
-                        <p class="text-slate-400 leading-relaxed">
-                            Talk through complex logic with built-in high-fidelity audio and video. No need for
-                            third-party calls—just click to speak.
-                        </p>
                     </div>
                 </div>
             </section>
