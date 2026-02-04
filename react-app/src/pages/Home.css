@@ -1,0 +1,144 @@
+/* Orbit Animations */
+@keyframes orbit {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes orbit-reverse {
+    from {
+        transform: rotate(360deg);
+    }
+
+    to {
+        transform: rotate(0deg);
+    }
+}
+
+/* Cursor Animations */
+@keyframes cursor-move-1 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    20% {
+        transform: translate(60px, 30px);
+    }
+
+    40% {
+        transform: translate(60px, 30px) scale(0.9);
+    }
+
+    45% {
+        transform: translate(60px, 30px) scale(1);
+    }
+
+    70% {
+        transform: translate(-20px, 80px);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes cursor-move-2 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    30% {
+        transform: translate(-50px, -40px);
+    }
+
+    45% {
+        transform: translate(-20px, 10px);
+    }
+
+    60% {
+        transform: translate(-20px, 10px) scale(0.9);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes cursor-move-3 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(-40px, -50px);
+    }
+
+    50% {
+        transform: translate(-80px, -10px);
+    }
+
+    80% {
+        transform: translate(20px, 30px);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+/* Typing Animation */
+@keyframes typing {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes blink-caret {
+
+    from,
+    to {
+        border-color: transparent;
+    }
+
+    50% {
+        border-color: #5AA060;
+    }
+}
+
+.orbit-container {
+    animation: orbit 60s linear infinite;
+}
+
+.orbit-item {
+    animation: orbit-reverse 60s linear infinite;
+}
+
+.typing-text {
+    overflow: hidden;
+    border-right: 2px solid #5AA060;
+    white-space: nowrap;
+    margin: 0;
+    animation: typing 3.5s steps(30, end) infinite alternate, blink-caret .75s step-end infinite;
+    max-width: fit-content;
+}
+
+/* Cursor Classes */
+.cursor-1 {
+    animation: cursor-move-1 8s ease-in-out infinite;
+}
+
+.cursor-2 {
+    animation: cursor-move-2 10s ease-in-out infinite;
+}
+
+.cursor-3 {
+    animation: cursor-move-3 12s ease-in-out infinite;
+}

@@ -1,0 +1,18 @@
+.glass-panel {
+    background: rgba(31, 35, 32, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mesh-bg {
+    background-color: #131613;
+    background-image:
+        radial-gradient(at 10% 20%, hsla(127, 43%, 25%, 0.4) 0px, transparent 50%),
+        radial-gradient(at 90% 80%, hsla(127, 43%, 30%, 0.2) 0px, transparent 50%),
+        radial-gradient(at 50% 50%, hsla(127, 43%, 20%, 0.3) 0px, transparent 50%);
+}
+
+.primary-hover {
+    background-color: #4a8a50;
+}
